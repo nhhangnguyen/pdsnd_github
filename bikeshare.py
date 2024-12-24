@@ -187,7 +187,9 @@ def main():
         city, month, day = get_filters()
         df = load_data(city, month, day)
 
-        if len(df) == 0:
+        df_len = len(df)
+
+        if df_len == 0:
             print('No data for the input city, month, and day')
             continue
         
@@ -198,7 +200,7 @@ def main():
 
         counter = 0
         rows_per_display = 5
-        total_rows = len(df)
+        total_rows = df_len
 
         while True:
             if counter == 0:
