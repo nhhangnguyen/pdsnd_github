@@ -86,6 +86,10 @@ def load_data(city, month, day):
     return df
 
 
+def print_elapsed_time(start_time, end_time):
+    print("\nThis took %s seconds." % (end_time - start_time))
+
+
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
 
@@ -106,7 +110,7 @@ def time_stats(df):
     most_common_start_hour = df['start_hour'].mode()[0]
     print('\nThe most common start hour: ',most_common_start_hour)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print_elapsed_time(start_time, time.time())
     print('-'*40)
 
 
@@ -130,7 +134,7 @@ def station_stats(df):
     most_frequent_trip = df['trip'].mode()[0]
     print('\nThe most frequent combination of start station and end station trip: ',most_frequent_trip)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print_elapsed_time(start_time, time.time())
     print('-'*40)
 
 
@@ -152,8 +156,7 @@ def trip_duration_stats(df):
     mean_travel_time = df['Travel Time'].mean()
     print('\nMean travel time: ',mean_travel_time)
 
-
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print_elapsed_time(start_time, time.time())
     print('-'*40)
 
 
@@ -167,24 +170,18 @@ def user_stats(df,city):
     user_types = df['User Type'].value_counts()
     print('\nValue counts for each user type:\n',user_types)
 
-    # Display counts of gender
+    # Display counts of gender, earliest, most recent, and most common year of birth
     if city == 'washington':
         print(f'\nCount of each gender: No gender information for {city}')
+        print(f'\nThe earliest, most recent, and most common year of birth: No year of birth information for {city}')
     else:
         count_genders = df['Gender'].value_counts()
         print('\nCount of each gender:\n',count_genders)
-
-
-    # Display earliest, most recent, and most common year of birth
-    if city == 'washington':
-        print(f'\nThe earliest, most recent, and most common year of birth: No year of birth information for {city}')
-    else:
         print('\nThe earliest year of birth: ',int(df['Birth Year'].min()))
         print('\nThe most recent year of birth: ',int(df['Birth Year'].max()))
         print('\nThe most common year of birth: ',int(df['Birth Year'].mode()[0]))
 
-
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print_elapsed_time(start_time, time.time())
     print('-'*40)
 
 
@@ -193,7 +190,9 @@ def main():
         city, month, day = get_filters()
         df = load_data(city, month, day)
 
-        if len(df) == 0:
+        df_len = len(df)
+
+        if df_len == 0:
             print('No data for the input city, month, and day')
             continue
         
@@ -204,7 +203,7 @@ def main():
 
         counter = 0
         rows_per_display = 5
-        total_rows = len(df)
+        total_rows = df_len
 
         while True:
             if counter == 0:
