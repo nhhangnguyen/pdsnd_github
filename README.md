@@ -48,3 +48,6 @@ We compute the following information:
 
 ### Source code files
 - `bikeshare.py`
+
+### Usage
+- `python3 bikeshare.py`
